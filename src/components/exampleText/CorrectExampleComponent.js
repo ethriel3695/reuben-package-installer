@@ -6,8 +6,8 @@ class CorrectExampleComponent extends React.Component {
     return (
       <div className={codeContent}>
         <span>{`[`}</span><br />
-        <span>&emsp;{`"react: "`}</span><br />
-        <span>&emsp;{`"react-dom: react"`}</span><br />
+        <span>&emsp;{`"react: ",`}</span><br />
+        <span>&emsp;{`"react-dom: react",`}</span><br />
         <span>&emsp;{`"react-router-dom: react"`}</span><br />
         <span>{`]`}</span>
       </div>
