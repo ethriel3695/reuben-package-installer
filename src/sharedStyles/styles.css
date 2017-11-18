@@ -21,7 +21,7 @@ body {
 
 .largeHeader {
   font-weight: 100;
-  font-size: 100px;
+  font-size: 85px;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -57,21 +57,7 @@ body {
   text-align: left;
 }
 
-table {
-  margin-top: 10px;
-  border-collapse: collapse;
-  width: 100%;
+.codeContainerParent {
+  color: #cc9a86;
+  font-size: 1.2em;
 }
-
-th, td {
-  text-align: left;
-  padding: 8px;
-}
-
-/* tr {background-color: #D7D7D5} */
-
-/* tr:nth-child(even){background-color: #f2f2f2} */
-
-/* th {
-  background-color: #D7D7D5;
-} */
