@@ -5,11 +5,11 @@ class CorrectExampleComponent extends React.Component {
   render () {
     return (
       <div className={codeContent}>
-        <span>{`{`}</span><br />
+        <span>{`[`}</span><br />
         <span>&emsp;{`"react: "`}</span><br />
         <span>&emsp;{`"react-dom: react"`}</span><br />
         <span>&emsp;{`"react-router-dom: react"`}</span><br />
-        <span>{`}`}</span>
+        <span>{`]`}</span>
       </div>
     );
   }
