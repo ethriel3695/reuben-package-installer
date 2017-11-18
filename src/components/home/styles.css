@@ -1,0 +1,19 @@
+.container {
+  composes: centeredContainers from 'sharedStyles/styles.css';
+}
+
+.title {
+  composes: largeHeader from 'sharedStyles/styles.css';
+}
+
+.description {
+  composes: subHeader from 'sharedStyles/styles.css';
+}
+
+.link {
+  composes: links from 'sharedStyles/styles.css';
+}
+
+.link:hover {
+  color: #1877E6;
+}
