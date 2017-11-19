@@ -1,0 +1,15 @@
+.inputFieldSelectContainer {
+  width: 275px;
+}
+
+.labelText {
+  composes: labels from 'sharedStyles/styles.css';
+}
+
+.inputField {
+  composes: inputContainer from 'sharedStyles/styles.css';
+}
+
+.errorMessage {
+  composes: errorMsg from 'sharedStyles/styles.css';
+}
