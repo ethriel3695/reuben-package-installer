@@ -9,31 +9,31 @@ process.env.BABEL_ENV = LAUNCH_COMMAND;
 
 const PATHS = {
   app: path.join(__dirname, 'src'),
-  build: path.join(__dirname, 'dist'),
+  build: path.join(__dirname, 'dist')
 };
 
 const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
   template: 'src/index.html',
   filename: 'index.html',
-  inject: 'body',
+  inject: 'body'
 });
 
 const productionPlugin = new webpack.DefinePlugin({
   'process.env': {
-    NODE_ENV: JSON.stringify('production'),
-  },
+    NODE_ENV: JSON.stringify('production')
+  }
 });
 
 const base = {
   entry: [
     'babel-polyfill',
     'webpack-hot-middleware/client?reload=true',
-    PATHS.app,
+    PATHS.app
   ],
   target: 'web',
   output: {
     path: PATHS.build,
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   module: {
     rules: [
@@ -42,15 +42,15 @@ const base = {
         test: /\.css$/,
         use: [
           {
-            loader: 'style-loader',
+            loader: 'style-loader'
           },
           {
             loader: 'css-loader',
             query: {
               modules: true,
-              localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
-            },
-          }],
+              localIdentName: '[path]___[name]__[local]___[hash:base64:5]'
+            }
+          }]
       },
       {
         test: /\.(jpe?g|png|gif|svg|webp)$/i,
@@ -58,8 +58,8 @@ const base = {
           {
             loader: 'file-loader',
             options: {
-              name: 'assets/img[name].[ext]',
-            },
+              name: 'assets/img[name].[ext]'
+            }
           },
           {
             loader: 'image-webpack-loader',
@@ -67,29 +67,29 @@ const base = {
               query: {
                 mozjpeg: {
                   progressive: true,
-                  quality: 65,
+                  quality: 65
                 },
                 gifsicle: {
                   optimizationLevel: 7,
-                  interlaced: false,
+                  interlaced: false
                 },
                 optipng: {
                   optimizationLevel: 7,
-                  interlaced: false,
+                  interlaced: false
                 },
                 webp: {
                   progressive: true,
-                  quality: 65,
-                },
-              },
-            },
-          }],
-      },
-    ],
+                  quality: 65
+                }
+              }
+            }
+          }]
+      }
+    ]
   },
   resolve: {
-    modules: [path.resolve(__dirname, './src'), 'node_modules'],
-  },
+    modules: [path.resolve(__dirname, './src'), 'node_modules']
+  }
 };
 
 const developmentConfig = {
@@ -98,13 +98,13 @@ const developmentConfig = {
     contentBase: './src',
     hot: true,
     inline: true,
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   plugins: [
     HTMLWebpackPluginConfig,
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-  ],
+    new webpack.NoEmitOnErrorsPlugin()
+  ]
 };
 
 var productionConfig = {
@@ -112,8 +112,8 @@ var productionConfig = {
   plugins: [HTMLWebpackPluginConfig,
     productionPlugin,
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
-  ],
+    new webpack.optimize.UglifyJsPlugin()
+  ]
 };
 
 export default Object.assign({}, base,
