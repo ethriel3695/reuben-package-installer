@@ -24,7 +24,7 @@ describe('Each array item must become an object key:value pair', () => {
     it('should return false if each object item does not have a key and value', () => {
       const userArray = [
         'react: react: react ',
-        'react-dom:react',
+        'react-dom: react',
         'eslint-config-standard:eslint',
         '0 : react : react-dom'
       ];
