@@ -1,9 +1,8 @@
 /* eslint-disable import/default */
-import React from 'react';
 import { render } from 'react-dom';
-import { App } from './components';
+import routes from './routes.js';
 
 render(
-  <App />,
+  routes,
   document.getElementById('app')
 );

@@ -1,7 +1,7 @@
-export function convertArrayToObject (userArray) {
+export const convertArrayToObject = (userArray) => {
   const packageObject = Object.assign(...userArray.map(splitStringsOnColon));
   return packageObject;
-}
+};
 
 const splitStringsOnColon = (stringPair) => {
   const splitValues = stringPair.split(': ');

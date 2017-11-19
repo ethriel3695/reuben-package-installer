@@ -1,0 +1,36 @@
+.container {
+  composes: centeredContainers from 'sharedStyles/styles.css';
+}
+
+.slogan {
+  composes: subHeader from 'sharedStyles/styles.css';
+}
+
+.installButton {
+  margin-top: 15px;
+  background-color: #F0F0F0;
+  color: #4A90E2;
+  font-weight: bold;
+  font-size: 20px;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.installButton:hover {
+  background-color: #125FB6;
+  color: #ffffff;
+}
+
+.labelText {
+  composes: labels from 'sharedStyles/styles.css';
+}
+
+.inputField {
+  composes: inputContainer from 'sharedStyles/styles.css';
+}
+
+.errorMessage {
+  composes: errorMsg from 'sharedStyles/styles.css';
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { HomeComponent } from '../components';
+// import { HomeComponent } from '../components';
 import { centeredContainer } from '../sharedStyles/styles.css';
 
 class App extends React.Component {
@@ -8,7 +8,7 @@ class App extends React.Component {
     return (
       <div className={centeredContainer}>
         <div>
-          <HomeComponent />
+          {this.props.children}
         </div>
       </div>
     );
