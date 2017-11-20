@@ -7,6 +7,7 @@ describe('Order Packages For Installation', () => {
       const unorderedObject = {
         'react-dom': 'react',
         'react': '',
+        'react-router-dom': 'react',
         'eslint-config-standard': 'eslint',
         'eslint': '',
         'eslint-react': 'eslint-config-standard',
@@ -16,6 +17,7 @@ describe('Order Packages For Installation', () => {
       const orderedArray = [
         'react',
         'react-dom',
+        'react-router-dom',
         'eslint',
         'eslint-config-standard',
         'eslint-react',
