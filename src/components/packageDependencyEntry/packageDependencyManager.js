@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { packageDependencyEntryForm } from '../../components';
 import { arrayOfStringsFormatter } from '../../validators/arrayValidator';
 import { packageIsADependencyOfDependency } from '../../validators/circularLogicValidator';
 import { convertArrayToObject } from '../../utilities/convertArrayToObject';
@@ -28,9 +27,6 @@ class packageDependencyManager extends React.Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-    console.log('is this happening');
-    console.log(nextProps);
-    console.log(nextState);
     if (this.state.error !== nextState.error ||
       nextState.userArray.length > 0) {
       return true;

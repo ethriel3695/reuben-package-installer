@@ -3,8 +3,6 @@ export function packageIsADependencyOfDependency (packageAndDependencies) {
   let dependencyPackageName = '';
   let dependencyName = '';
 
-  /* eslint-disable no-console */
-
   for (packageName in packageAndDependencies) {
     dependencyName = packageAndDependencies[packageName];
 
