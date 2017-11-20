@@ -1,4 +1,4 @@
-import assert from 'assert';
+import expect from 'expect';
 import { orderPackagesForInstallation } from './OrderPackagesForInstallation';
 
 describe('Order Packages For Installation', () => {
@@ -14,15 +14,15 @@ describe('Order Packages For Installation', () => {
       };
 
       const orderedArray = [
+        'react',
+        'react-dom',
         'eslint',
         'eslint-config-standard',
-        'eslint-env',
         'eslint-react',
-        'react',
-        'react-dom'
+        'eslint-env'
       ];
 
-      assert.equal(orderedArray, orderPackagesForInstallation(unorderedObject));
+      expect(orderPackagesForInstallation(unorderedObject)).toEqual(orderedArray);
     });
   });
 });

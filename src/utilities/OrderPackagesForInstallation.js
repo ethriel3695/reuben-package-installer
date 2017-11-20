@@ -1,42 +1,44 @@
 export function orderPackagesForInstallation (packageObject) {
   let packageName = '';
-  let packageDependency = '';
-  let parentPackageName = '';
-  let dependencyPackageName = '';
   let dependencyName = '';
-
   let orderedArray = [];
+  let filteredOrderedArray = [];
 
-  /* eslint-disable no-console */
+  let packageArray = Object.keys(packageObject);
+  let dependencyArray = Object.keys(packageObject).map(function (dependency) {
+    return packageObject[dependency];
+  });
 
   for (packageName in packageObject) {
-    console.log(packageObject);
-    orderedArray.push(packageName);
-    orderedArray.sort();
-    console.log(orderedArray);
-    // console.log(packageObject);
-    // dependencyName = packageObject[packageName];
-    // if (packageObject[packageName] === '') {
-    //   orderedArray.push(packageName);
-    // }
-    // if (packageObject.hasOwnProperty(dependencyName)) {
-    //   dependencyPackageName = packageObject[dependencyName];
-    //   orderedArray.push(dependencyPackageName);
-    // }
+    dependencyName = packageObject[packageName];
+    if (dependencyArray.includes(packageName)) {
+      if (dependencyName === '') {
+        orderedArray.push(packageName);
+        keysByValue(packageName);
+      }
+    } else if (packageArray.includes(packageName)) {
+      if (orderedArray.includes(dependencyName)) {
+        orderedArray.push(packageName);
+        keysByValue(packageName);
+      }
+    }
   }
 
-  // for (packageName in packageObject) {
-  //   if (packageObject[packageName] === '') {
-  //     orderedArray.push(packageName);
-  //   }
-  //   for (packageDependency in packageObject) {
-  //     if (packageObject[packageDependency] === packageName) {
-  //       if (packageObject[packageDependency] === '') {
-  //         orderedArray.push(packageName);
-  //       }
-  //       orderedArray.push(packageDependency);
-  //     }
-  //   }
-  // }
-  return orderedArray;
+  function keysByValue (dependency) {
+    orderedArray.push(Object.keys(packageObject)
+      .find(key => packageObject[key] === dependency));
+  }
+
+  function uniqueArrayValues (packages) {
+    return packages.filter(function (element, pos, arr) {
+      return arr.indexOf(element) === pos;
+    });
+  }
+  orderedArray = orderedArray.filter(function (packages) {
+    if (packages !== undefined) {
+      return packages.length > 0;
+    }
+  });
+  filteredOrderedArray = uniqueArrayValues(orderedArray);
+  return filteredOrderedArray;
 }

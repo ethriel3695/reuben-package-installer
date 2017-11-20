@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashRouter, Route } from 'react-router-dom';
-import { App, HomeComponent, packageDependencyManager } from './components'; // eslint-disable-line import/no-duplicates
+import { App, HomeComponent, packageDependencyManager } from './components';
 
 const routes = (
   <HashRouter>
