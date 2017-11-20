@@ -57,7 +57,16 @@ body {
 .errorMsg {
   color: #FF7777;
   font-size: 18px;
-  text-align: left;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.installMsg {
+  color: #5bc297;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
 }
 
 .codeContainerParent {

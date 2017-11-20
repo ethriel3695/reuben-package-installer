@@ -1,17 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // import { packageDependencyEntryForm } from '../../components';
-import { arrayOfStringsValidation } from '../../validators/arrayValidator';
+import { arrayOfStringsFormatter } from '../../validators/arrayValidator';
 import { packageIsADependencyOfDependency } from '../../validators/circularLogicValidator';
 import { convertArrayToObject } from '../../utilities/convertArrayToObject';
-import { container, installButton, inputField } from './styles.css';
+import { orderPackagesForInstallation } from '../../utilities/OrderPackagesForInstallation';
+import { container, installButton, inputField,
+  errorMessage, installMessage } from './styles.css';
 
-function UserMessageModal (error) {
+const UserMessageModal = ({installs, error}) => {
   return (
-    error !== null && error !== undefined
-      ? <div>{`Success!`}</div> : <div>{`Error!`}</div>
+    error === null || error === undefined
+      ? <div className={installMessage}>{`"${installs}"`}</div>
+      : <div className={errorMessage}>{`${error}`}</div>
   );
-}
+};
 
 class packageDependencyManager extends React.Component {
   constructor (props, context) {
@@ -20,112 +23,97 @@ class packageDependencyManager extends React.Component {
     this.state = {
       userArray: [],
       packageDependencyObject: {},
-      errors: {},
-      installing: false
+      error: ''
     };
   }
 
-  componentWillReceiveProps (nextProps) {
+  shouldComponentUpdate (nextProps, nextState) {
     console.log('is this happening');
-    if (this.props.userArray.id !== nextProps.userArray.id) {
-      this.setState({errors: Object.assign({}, {})});
+    console.log(nextProps);
+    console.log(nextState);
+    if (this.state.error !== nextState.error ||
+      nextState.userArray.length > 0) {
+      return true;
     }
   }
 
-  async formIsValid (userArray) {
-    let isValid = true;
-    let errors = {};
-
+  validateUserEntry = () => {
+    let formatUserArray = `${document.getElementById('userEntry').value}`;
+    let userArray = [];
     try {
-      if (userArray === undefined || userArray.length < 1) {
-        console.log(`it sets this`);
-        errors.title = 'Please enter a package and dependency array';
-        isValid = false;
-        this.setState({
-          errors: errors.title
-        });
-        return isValid;
-      }
-      return isValid;
-    } catch (error) {
-      console.log(error);
+      userArray = arrayOfStringsFormatter(formatUserArray);
+      return userArray;
+    } catch (e) {
+      /* eslint-disable no-console */
+      console.log(e);
     }
   }
 
-  async validateUserEntry (event) {
-    let isValid = false;
-    event.preventDefault();
-    let userArray = document.getElementById('userEntry').value;
-    console.log(userArray);
+  userEntryAsObject = (userArray) => {
+    let packageObject = {};
     try {
-      isValid = await this.formIsValid(userArray);
+      packageObject = convertArrayToObject(userArray);
+      return packageObject;
     } catch (e) {
       console.log(e);
     }
+  }
+
+  dependencyCycles = (packageObject) => {
+    let isValid = false;
     try {
-      isValid = await arrayOfStringsValidation(userArray);
-      this.convertArray(userArray);
-    } catch (error) {
-      console.log(error);
+      isValid = packageIsADependencyOfDependency(packageObject);
+      return isValid;
+    } catch (e) {
+      console.log(e);
     }
-    return isValid;
   }
 
-  // validateUserEntry = (event) => {
-  //   event.preventDefault();
-  //   let userArray = document.getElementById('userEntry').value;
-  //   console.log(userArray);
-  //   if (!this.formIsValid(userArray)) {
-  //     console.log('does it get here');
-  //     return;
-  //   }
-  //   arrayOfStringsValidation(userArray)
-  //     .then(() => this.convertArray(userArray))
-  //     .catch(error => {
-  //       this.setState({
-  //         error: error
-  //       });
-  //     });
-  // }
-
-  convertArray = (userArray) => {
-    console.log('does it get here too');
-    let packageObject = convertArrayToObject(userArray)
-      .then(() => this.doDependenciesCauseCycle(packageObject))
-      .catch(error => {
-        this.setState({
-          error: error
-        });
-      });
-  }
-
-  doDependenciesCauseCycle = (packageObject) => {
-    packageIsADependencyOfDependency(packageObject)
-      .then(() => this.convertObjectForInstall(packageObject))
-      .catch(error => {
-        this.setState({
-          error: error
-        });
-      });
-  }
+  updateErrorMessage = (errorMessage) => {
+    this.setState({
+      error: errorMessage
+    });
+  };
 
   convertObjectForInstall = (packageObject) => {
+    let orderedUserArray = [];
+    orderedUserArray = orderPackagesForInstallation(packageObject);
     this.setState({
-      userArray: packageObject
+      userArray: orderedUserArray,
+      error: null
     });
   }
 
-  installPackages = (userArray) => {
-    this.validateUserEntry()
-      .then(() => this.redirect())
+  installPackages = (event) => {
+    event.preventDefault();
+    let errorMessage = `Did not enter key: value pairs separated by commas. See "Correct Format Example"`;
+    let packageObject = {};
+    let isValid = false;
+    let userEntry = [];
 
-      .catch(error => {
-        UserMessageModal(error);
-        this.setState({
-          saving: false
-        });
-      });
-  }
+    userEntry = this.validateUserEntry();
+
+    if (!userEntry) {
+      this.updateErrorMessage(errorMessage);
+      return;
+    } else {
+      packageObject = this.userEntryAsObject(userEntry);
+    }
+
+    if (false in packageObject) {
+      this.updateErrorMessage(errorMessage);
+      return;
+    } else {
+      isValid = this.dependencyCycles(packageObject);
+    }
+
+    if (!isValid) {
+      this.convertObjectForInstall(packageObject);
+    } else {
+      errorMessage = `The dependencies specification contains cycles`;
+      this.updateErrorMessage(errorMessage);
+    }
+  };
 
   render () {
     return (
@@ -139,9 +127,9 @@ class packageDependencyManager extends React.Component {
           <input type='submit'
             value='Install'
             className={installButton}
-            onClick={this.validateUserEntry}/>
+            onClick={this.installPackages}/>
         </form>
-        <p>{this.state.userArray === undefined ? this.state.errors.title : this.state.userArray }</p>
+        <UserMessageModal installs={this.state.userArray} error={this.state.error}/>
       </div>
     );
   }
@@ -149,8 +137,12 @@ class packageDependencyManager extends React.Component {
 
 packageDependencyManager.propTypes = {
   userArray: PropTypes.array,
-  errors: PropTypes.object,
-  installing: PropTypes.bool
+  error: PropTypes.string
+};
+
+UserMessageModal.propTypes = {
+  installs: PropTypes.array,
+  error: PropTypes.string
 };
 
 export default packageDependencyManager;
