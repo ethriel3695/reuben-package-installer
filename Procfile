@@ -1,1 +1,1 @@
-web: babel-node src/index.js
+web: babel-node tools/distServer.js
