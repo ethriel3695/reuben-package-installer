@@ -1,5 +1,5 @@
 {
-  "name": "reuben-package-installer",
+  "name": "node-package-installer",
   "version": "1.0.0",
   "description": "A package installer to install node modules and their dependencies",
   "scripts": {
